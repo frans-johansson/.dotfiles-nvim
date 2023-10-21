@@ -22,5 +22,7 @@ return {
 
 	"lifepillar/vim-solarized8",
 
-	"EdenEast/nightfox.nvim"
+	"EdenEast/nightfox.nvim",
+
+	"rebelot/kanagawa.nvim"
 }

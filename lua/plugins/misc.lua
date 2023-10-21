@@ -36,14 +36,12 @@ return {
 			vim.g.tmux_navigator_preserve_zoom = 1
 		end,
 	},
-	-- Show a file outline powered by LSP
+	-- Make project-wide search and replace a breeze with editable quickfix windows
 	{
-		"simrat39/symbols-outline.nvim",
-		config = function ()
-			require("symbols-outline").setup()
-			local map = require("helpers.keys").map
-			map("n", "<leader>us", "<cmd>SymbolsOutline<cr>", "Toggle symbols outline")
-		end
+		"gabrielpoca/replacer.nvim",
+		config = function()
+			require("helpers.keys").map("n", "<leader>r", function() require("replacer").run() end, "Quickfix Replacer")
+		end,
 	},
 	"typicode/bg.nvim", -- Have the terminal background match the colorscheme
 	"tpope/vim-sleuth", -- Detect tabstop and shiftwidth automatically

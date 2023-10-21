@@ -8,7 +8,6 @@ return {
 			"folke/neodev.nvim",
 			"hrsh7th/cmp-nvim-lsp",
 			"nvim-telescope/telescope.nvim",
-			"j-hui/fidget.nvim",
 		},
 		config = function()
 			-- Set up Mason before anything else
@@ -20,36 +19,6 @@ return {
 
 			-- Neodev setup before LSP config
 			require("neodev").setup()
-
-			-- Set up that fidget spinner :)
-			require("fidget").setup()
-
-			-- Set up cool signs for diagnostics
-			local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
-			for type, icon in pairs(signs) do
-				local hl = "DiagnosticSign" .. type
-				vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
-			end
-
-			-- Diagnostic config
-			local config = {
-				virtual_text = false,
-				signs = {
-					active = signs,
-				},
-				update_in_insert = true,
-				underline = true,
-				severity_sort = true,
-				float = {
-					focusable = true,
-					style = "minimal",
-					border = "rounded",
-					source = "always",
-					header = "",
-					prefix = "",
-				},
-			}
-			vim.diagnostic.config(config)
 
 			-- This function gets run when an LSP connects to a particular buffer.
 			local on_attach = function(_, bufnr)
@@ -79,70 +48,54 @@ return {
 			local capabilities = vim.lsp.protocol.make_client_capabilities()
 			capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
-			-- Lua
-			require("lspconfig")["lua_ls"].setup({
-				on_attach = on_attach,
-				capabilities = capabilities,
-				settings = {
-					Lua = {
-						completion = {
-							callSnippet = "Replace",
-						},
-						diagnostics = {
-							globals = { "vim" },
-						},
-						workspace = {
-							library = {
-								[vim.fn.expand("$VIMRUNTIME/lua")] = true,
-								[vim.fn.stdpath("config") .. "/lua"] = true,
-							},
-						},
-					},
-				},
-			})
-
-			-- Python
-			require("lspconfig")["pylsp"].setup({
-				on_attach = on_attach,
-				capabilities = capabilities,
-				settings = {
-					pylsp = {
-						plugins = {
-							flake8 = {
-								enabled = true,
-								maxLineLength = 88, -- Black's line length
-							},
-							-- Disable plugins overlapping with flake8
-							pycodestyle = {
-								enabled = false,
-							},
-							mccabe = {
-								enabled = false,
-							},
-							pyflakes = {
-								enabled = false,
-							},
-							-- Use Black as the formatter
-							autopep8 = {
-								enabled = false,
-							},
-						},
-					},
-				},
-			})
-
-			-- Rust
-			require("lspconfig")["rust_analyzer"].setup({
-				on_attach = on_attach,
-				capabilities = capabilities,
-				settings = {
-					["rust-analyzer"] = {
-						cargo_watch = {
-							enabled = true,
-						},
-					},
+			-- Take care of initializing the specified servers
+			local servers = require("helpers.languages").servers
+			local lspconfig = require("lspconfig")
+			for server, args in pairs(servers) do
+				local config = {
+					on_attach = on_attach,
+					capabilities = capabilities,
+				}
+				for arg, val in pairs(args) do
+					config[arg] = val
+				end
+				lspconfig[server].setup(config)
+			end
+		end,
+	},
+	{
+		"jose-elias-alvarez/null-ls.nvim",
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			"ThePrimeagen/refactoring.nvim"
+		},
+		config = function()
+			local null_ls = require("null-ls")
+			null_ls.setup({
+				sources = {
+					null_ls.builtins.formatting.stylua,
+					null_ls.builtins.formatting.black,
+					null_ls.builtins.formatting.isort,
+					null_ls.builtins.formatting.rustfmt,
+					null_ls.builtins.code_actions.refactoring,
 				},
 			})
 		end,
 	},
+	{
+		"linrongbin16/lsp-progress.nvim",
+		dependencies = {
+			"neovim/nvim-lspconfig",
+			"nvim-tree/nvim-web-devicons"
+		},
+		config = function()
+			require("lsp-progress").setup()
+		end
+	},
+	-- {
+	-- 	"hinell/lsp-timeout.nvim",
+	-- 	dependencies = {
+	-- 		"neovim/nvim-lspconfig"
+	-- 	}
+	-- }
 }

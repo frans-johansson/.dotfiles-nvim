@@ -14,9 +14,9 @@ return {
 						x = { name = "Diagnostics" },
 						l = { name = "LSP" },
 						u = { name = "UI" },
-						b = { name = "Debugging" },
 						g = { name = "Git" },
 						gh = { name = "Hunks" },
+						n = { name = "Notes" },
 					}
 				}
 			)
