@@ -21,12 +21,12 @@ return {
 					lualine_a = {
 						{ "mode", right_padding = 2 },
 					},
-					lualine_b = { "filename", "branch" },
-					lualine_c = { "fileformat" },
+					lualine_b = { "buffers" },
+					lualine_c = { "diagnostics" },
 					lualine_x = { "require('lsp-progress').progress()" },
-					lualine_y = { "filetype", "progress" },
+					lualine_y = { "filetype", "fileformat", "progress" },
 					lualine_z = {
-						{ "location", left_padding = 2 },
+						{ "branch", left_padding = 2 },
 					},
 				},
 			})
