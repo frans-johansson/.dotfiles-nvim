@@ -17,6 +17,17 @@ end
 
 -- Set other options
 local colorscheme = require("helpers.colorscheme")
+
+-- Enables transparency effects to pass through
+vim.cmd[[
+	augroup colorscheme
+	  autocmd!
+	  autocmd ColorScheme * highlight Normal guibg=NONE ctermbg=NONE
+	  autocmd ColorScheme * highlight NonText guibg=NONE ctermbg=NONE
+	  autocmd ColorScheme * highlight SignColumn guibg=NONE ctermbg=NONE
+	augroup END
+]]
+
 vim.cmd.colorscheme(colorscheme)
 vim.opt.background = "dark"
 
