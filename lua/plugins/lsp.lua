@@ -8,6 +8,7 @@ return {
 			"folke/neodev.nvim",
 			"hrsh7th/cmp-nvim-lsp",
 			"nvim-telescope/telescope.nvim",
+			"SmiteshP/nvim-navic",
 		},
 		config = function()
 			-- Set up Mason before anything else
@@ -21,7 +22,7 @@ return {
 			require("neodev").setup()
 
 			-- This function gets run when an LSP connects to a particular buffer.
-			local on_attach = function(_, bufnr)
+			local on_attach = function(client, bufnr)
 				local lsp_map = require("helpers.keys").lsp_map
 
 				lsp_map("<leader>lr", vim.lsp.buf.rename, bufnr, "Rename symbol")
@@ -42,6 +43,15 @@ return {
 				end, { desc = "Format current buffer with LSP" })
 
 				lsp_map("<leader>ff", "<cmd>Format<cr>", bufnr, "Format")
+
+				-- Attach navic if available
+				local navic_ok, navic = pcall(require, "nvim-navic")
+				if navic_ok then
+					print("Setting up navic")
+					navic.attach(client, bufnr)
+				else
+					print("Navic not available :(")
+				end
 			end
 
 			-- nvim-cmp supports additional completion capabilities, so broadcast that to servers
@@ -89,7 +99,7 @@ return {
 			"nvim-tree/nvim-web-devicons"
 		},
 		config = function()
-			require("lsp-progress").setup()
+			require("lsp-progress").setup({})
 		end
 	},
 	-- {

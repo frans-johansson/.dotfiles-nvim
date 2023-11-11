@@ -5,11 +5,13 @@ return {
 		dependencies = {
 			"nvim-tree/nvim-web-devicons",
 			"linrongbin16/lsp-progress.nvim",
+			"SmiteshP/nvim-navic",
 		},
 		config = function()
 			-- local colorscheme = require("helpers.colorscheme")
 			-- local lualine_theme = colorscheme == "default" and "auto" or colorscheme
 			local lualine_theme = "auto"
+			local navic = require("nvim-navic")
 			require("lualine").setup({
 				options = {
 					icons_enabled = true,
@@ -21,13 +23,29 @@ return {
 					lualine_a = {
 						{ "mode", right_padding = 2 },
 					},
-					lualine_b = { "buffers" },
-					lualine_c = { "diagnostics" },
-					lualine_x = { "require('lsp-progress').progress()" },
-					lualine_y = { "filetype", "fileformat", "progress" },
-					lualine_z = {
-						{ "branch", left_padding = 2 },
+					lualine_b = {
+						{
+							"filename",
+							path = 1,
+							file_status = false,
+						},
+						{ "branch" },
 					},
+					lualine_c = { "diff" },
+					lualine_x = { "require('lsp-progress').progress()" },
+					lualine_y = { "filetype", "diagnostics", "progress" },
+				},
+				winbar = {
+					lualine_b = { "buffers" },
+					lualine_x = {
+						{
+							"navic",
+							color_correction = nil,
+							navic_opts = nil,
+							draw_empty = true,
+						},
+					},
+					lualine_y = { {"searchcount", draw_empty = true} },
 				},
 			})
 
