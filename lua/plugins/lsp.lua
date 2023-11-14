@@ -47,10 +47,7 @@ return {
 				-- Attach navic if available
 				local navic_ok, navic = pcall(require, "nvim-navic")
 				if navic_ok then
-					print("Setting up navic")
 					navic.attach(client, bufnr)
-				else
-					print("Navic not available :(")
 				end
 			end
 

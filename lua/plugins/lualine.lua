@@ -18,6 +18,10 @@ return {
 					theme = lualine_theme,
 					component_separators = "|",
 					section_separators = "",
+					disabled_filetypes = {
+						winbar = { "neo-tree" },
+						statusline = { "neo-tree" },
+					},
 				},
 				sections = {
 					lualine_a = {
@@ -45,7 +49,7 @@ return {
 							draw_empty = true,
 						},
 					},
-					lualine_y = { {"searchcount", draw_empty = true} },
+					lualine_y = { { "searchcount", draw_empty = true } },
 				},
 			})
 
