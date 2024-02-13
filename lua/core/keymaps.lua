@@ -17,12 +17,6 @@ map("n", "<leader>dw", "<cmd>close<cr>", "Window")
 map("n", "<M-h>", "^", "Go to beginning of line")
 map("n", "<M-l>", "$", "Go to end of line")
 
--- Move with Shift-Arrows
-map("n", "<S-Left>", "<C-w><S-h>", "Move window to the left")
-map("n", "<S-Down>", "<C-w><S-j>", "Move window down")
-map("n", "<S-Up>", "<C-w><S-k>", "Move window up")
-map("n", "<S-Right>", "<C-w><S-l>", "Move window to the right")
-
 -- Resize with arrows
 map("n", "<C-Up>", ":resize +2<CR>")
 map("n", "<C-Down>", ":resize -2<CR>")
