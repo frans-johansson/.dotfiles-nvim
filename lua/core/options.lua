@@ -17,6 +17,7 @@ end
 
 -- Set other options
 local colorscheme = require("helpers.colorscheme")
+vim.cmd(":set formatoptions-=cro")
 
 -- Enables transparency effects to pass through
 vim.cmd[[
